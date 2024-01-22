@@ -11,6 +11,9 @@ export default function Page() {
       <Link href='/register' asChild>
         <Button title="Open Register Page" />
       </Link>
+      <Link href='/one' asChild>
+        <Button title="Open tab one" />
+      </Link>
     </View>
   )
 }

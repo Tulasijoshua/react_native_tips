@@ -26,6 +26,9 @@ export default function _layout() {
             title: 'Login Modal',
             presentation: 'modal'
         }} />
+        <Stack.Screen name="(tabs)" options={{
+            headerShown: false
+        }} />
         <Stack.Screen name="[missing]" options={{
             title: '404'
         }} />
