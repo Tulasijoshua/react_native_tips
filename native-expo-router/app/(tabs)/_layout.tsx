@@ -10,8 +10,13 @@ export default function _layout() {
             tabBarLabel: 'One'
         }} />
         <Tabs.Screen name="two" options={{
-            headerTitle: '2',
+            headerTitle: 'Two',
             tabBarLabel: 'Two'
+        }} />
+        <Tabs.Screen name="posts" options={{
+            headerTitle: 'Posts',
+            tabBarLabel: 'Posts',
+            headerShown: false,
         }} />
     </Tabs>
   )
