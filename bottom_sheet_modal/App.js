@@ -19,10 +19,17 @@ export default function App() {
 
   function handlePresentModal() {
       bottomSheetModalRef.current?.present();
+      setTimeout(() => {
+        setIsOpen(true);
+      }, 100);
+      // setIsOpen(true)
   }
 
   return (
-    <GestureHandlerRootView style={styles.container}>
+    <GestureHandlerRootView style={[
+      styles.container,
+      { backgroundColor: isOpen ? "gray" : "white" },
+      ]}>
       <BottomSheetModalProvider>
         <View >
           <Button title="Present Modal" onPress={handlePresentModal} />
@@ -32,6 +39,7 @@ export default function App() {
             index={1}
             snapPoints={snapPoints}
             backgroundStyle={{borderRadius: 30}}
+            onDismiss={() => setIsOpen(false)}
           >
             <View style={styles.contentContainer}>
               <Text style={[styles.title, {marginBottom: 20}]}>Dark mode</Text>
