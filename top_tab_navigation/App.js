@@ -1,13 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs'
+
+const Tab = createMaterialTopTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      
+    </NavigationContainer>
   );
+}
+
+const Login = () => {
+  return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <Text style={{fontSize: 30}}>Login</Text>
+  </View>
+}
+
+const Signup = () => {
+  return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <Text style={{fontSize: 30}}>Signup</Text>
+  </View>
 }
 
 const styles = StyleSheet.create({
