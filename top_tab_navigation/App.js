@@ -8,7 +8,8 @@ const Tab = createMaterialTopTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      
+      <Tab.Screen name='Login' component={Login} />
+      <Tab.Screen name='Signup' component={Signup} />
     </NavigationContainer>
   );
 }
