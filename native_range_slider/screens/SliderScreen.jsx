@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native'
 import React from 'react'
 import InputRange from '../components/InputRange'
 
@@ -8,7 +8,7 @@ export default function SliderScreen() {
         <Text style={styles.title}>Input Range React Native</Text>
         <Text style={styles.subtitle}>reac-native-reanimated 2.x</Text>
         <View style={styles.content}>
-            <InputRange />
+            <InputRange main={1950} max={2022} title="Year" steps={1} onValueChange={(range) => console.log(range)} />
         </View>
       <Text>SliderScreen</Text>
     </SafeAreaView>
@@ -18,7 +18,8 @@ export default function SliderScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: '#fefefe',
+    paddingTop: Platform.OS === 'android' ? 50 : 0
   },
   content: {
     flex: 1,
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
     color: '#555',
     fontSize: 18,
     fontWeight: '600',
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingVertical: 16
   }
 })
