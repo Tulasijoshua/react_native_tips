@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function SliderScreen() {
+export default function InputRange() {
   return (
     <View>
-      <Text>SliderScreen</Text>
+      <Text>InputRange</Text>
     </View>
   )
 }

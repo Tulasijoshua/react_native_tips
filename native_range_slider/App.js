@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import SliderScreen from './components/SliderScreen';
+import SliderScreen from './screens/SliderScreen';
 
 export default function App() {
   return (
