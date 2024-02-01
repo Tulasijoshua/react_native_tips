@@ -9,6 +9,8 @@ const MAXWIDTH = WIDTH - KONBSIZE/2 + 6
 export default function InputRange({min, max, steps, title, onValueChange}) {
     const xKnob1 = useSharedValue(0)
     const scaleKnob1 = useSharedValue(1)
+    const xKnob2 = useSharedValue(MAXWIDTH)
+    const scaleKnob2 = useSharedValue(1)
 
     const gestureHandler1  = useAnimatedGestureHandler({
         onStart:(_, ctx) => {
@@ -19,12 +21,29 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
             xKnob1.value = 
                 ctx.startX + event.translationX < 0 
                     ? 0 
+                    : ctx.startX + event.translationX > xKnob2.value
+                    ? xKnob2.value
+                    : ctx.startX + event.translationX;
+        },
+        onEnd:() => {
+            scaleKnob1.value = 1;
+        },
+    })
+    const gestureHandler2  = useAnimatedGestureHandler({
+        onStart:(_, ctx) => {
+            ctx.startX = xKnob2.value;
+        },
+        onActive:(event, ctx) => {
+            scaleKnob2.value = 1.3;
+            xKnob2.value = 
+                ctx.startX + event.translationX < xKnob1.value
+                    ? xKnob1.value
                     : ctx.startX + event.translationX > MAXWIDTH
                     ? MAXWIDTH
                     : ctx.startX + event.translationX;
         },
         onEnd:() => {
-            scaleKnob1.value = 1;
+            scaleKnob2.value = 1;
         },
     })
     const styleLine = useAnimatedStyle(() => {
@@ -51,6 +70,19 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
         }
     })
 
+    const styleKnob2 = useAnimatedStyle(() => {
+        return {
+            transform: [
+                {
+                    translateX: xKnob2.value,
+                },
+                {
+                    scale:scaleKnob2.value
+                }
+            ]
+        }
+    })
+
   return (
     <GestureHandlerRootView>
       <View style={styles.header}>
@@ -66,6 +98,9 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
         <View>
             <PanGestureHandler onGestureEvent={gestureHandler1}>
                 <Animated.View style={[styles.knob, styleKnob1]} />
+            </PanGestureHandler>
+            <PanGestureHandler onGestureEvent={gestureHandler2}>
+                <Animated.View style={[styles.knob, styleKnob2]} />
             </PanGestureHandler>
         </View>
       </View>
