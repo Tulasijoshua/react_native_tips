@@ -8,12 +8,14 @@ const KONBSIZE = 20;
 const MAXWIDTH = WIDTH - KONBSIZE/2 + 6
 export default function InputRange({min, max, steps, title, onValueChange}) {
     const xKnob1 = useSharedValue(0)
+    const scaleKnob1 = useSharedValue(1)
 
     const gestureHandler1  = useAnimatedGestureHandler({
         onStart:(_, ctx) => {
             ctx.startX = xKnob1.value;
         },
         onActive:(event, ctx) => {
+            scaleKnob1.value = 1.3;
             xKnob1.value = 
                 ctx.startX + event.translationX < 0 
                     ? 0 
@@ -21,7 +23,9 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
                     ? MAXWIDTH
                     : ctx.startX + event.translationX;
         },
-        onEnd:() => {},
+        onEnd:() => {
+            scaleKnob1.value = 1;
+        },
     })
     const styleLine = useAnimatedStyle(() => {
         return {
@@ -39,6 +43,9 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
             transform: [
                 {
                     translateX: xKnob1.value,
+                },
+                {
+                    scale:scaleKnob1.value
                 }
             ]
         }

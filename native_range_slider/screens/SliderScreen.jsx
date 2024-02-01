@@ -8,7 +8,7 @@ export default function SliderScreen() {
         <Text style={styles.title}>Input Range React Native</Text>
         <Text style={styles.subtitle}>reac-native-reanimated 2.x</Text>
         <View style={styles.content}>
-            <InputRange main={1950} max={2022} title="Year" steps={1} onValueChange={(range) => console.log(range)} />
+            <InputRange min={1950} max={2022} title="Year" steps={1} onValueChange={(range) => console.log(range)} />
         </View>
       <Text>SliderScreen</Text>
     </SafeAreaView>
