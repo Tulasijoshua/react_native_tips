@@ -1,15 +1,18 @@
 import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import React from 'react';
-import Animated, {useAnimatedGestureHandler, useAnimatedStyle} from 'react-native-reanimated';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated, {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
+import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 
 const WIDTH = Dimensions.get('window').width - 40;
 const KONBSIZE = 20;
 export default function InputRange({min, max, steps, title, onValueChange}) {
+    const xKnob1 = useSharedValue(0)
 
     const gestureHandler1  = useAnimatedGestureHandler({
-        onStart:() => {},
-        onActive:() => {},
+        onStart:(_, ctx) => {},
+        onActive:(event, ctx) => {
+            xKnob1.value = event.translationX;
+        },
         onEnd:() => {},
     })
     const styleLine = useAnimatedStyle(() => {
@@ -24,7 +27,7 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
     })
 
   return (
-    <View>
+    <GestureHandlerRootView>
       <View style={styles.header}>
         <Text style={styles.title}>{title}</Text>
       </View>
@@ -41,7 +44,7 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
             </PanGestureHandler>
         </View>
       </View>
-    </View>
+    </GestureHandlerRootView>
   )
 }
 
