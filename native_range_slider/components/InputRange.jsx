@@ -52,8 +52,8 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
             height: 3,
             marginTop: -3,
             borderRadius: 3,
-            width: 100,
-            transform: [{translateX: 0 }]
+            width: xKnob2.value - xKnob1.value,
+            transform: [{translateX: xKnob1.value }]
         }
     })
 
