@@ -5,13 +5,21 @@ import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-
 
 const WIDTH = Dimensions.get('window').width - 40;
 const KONBSIZE = 20;
+const MAXWIDTH = WIDTH - KONBSIZE/2 + 6
 export default function InputRange({min, max, steps, title, onValueChange}) {
     const xKnob1 = useSharedValue(0)
 
     const gestureHandler1  = useAnimatedGestureHandler({
-        onStart:(_, ctx) => {},
+        onStart:(_, ctx) => {
+            ctx.startX = xKnob1.value;
+        },
         onActive:(event, ctx) => {
-            xKnob1.value = event.translationX;
+            xKnob1.value = 
+                ctx.startX + event.translationX < 0 
+                    ? 0 
+                    : ctx.startX + event.translationX > MAXWIDTH
+                    ? MAXWIDTH
+                    : ctx.startX + event.translationX;
         },
         onEnd:() => {},
     })
@@ -23,6 +31,16 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
             borderRadius: 3,
             width: 100,
             transform: [{translateX: 0 }]
+        }
+    })
+
+    const styleKnob1 = useAnimatedStyle(() => {
+        return {
+            transform: [
+                {
+                    translateX: xKnob1.value,
+                }
+            ]
         }
     })
 
@@ -40,7 +58,7 @@ export default function InputRange({min, max, steps, title, onValueChange}) {
         <Animated.View style={styleLine} />
         <View>
             <PanGestureHandler onGestureEvent={gestureHandler1}>
-                <Animated.View style={[styles.knob]} />
+                <Animated.View style={[styles.knob, styleKnob1]} />
             </PanGestureHandler>
         </View>
       </View>
