@@ -1,9 +1,13 @@
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import DatePicker from 'react-native-modern-datepicker'
-import { getToday, getFormatedDate } from 'react-native-modern-datepicker';}
+import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 
 export default function CalendarPicker() {
+
+    const today = new Date();
+
+    const startDate = getFormatedDate(today.setDate(today.getDate() + 1), 'YYYY/MM/DD')
     const [open, setOpen] = useState(false);
     const [date, setDate] = useState('12/12/2023');
 
@@ -33,6 +37,7 @@ export default function CalendarPicker() {
                 <DatePicker 
                     mode='calendar'
                     selected={date}
+                    minimumDate={startDate}
                     onDateChange={handleChange}
                 />
 
