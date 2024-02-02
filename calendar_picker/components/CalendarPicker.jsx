@@ -1,16 +1,24 @@
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
+import DatePicker from 'react-native-modern-datepicker'
+import { getToday, getFormatedDate } from 'react-native-modern-datepicker';}
 
 export default function CalendarPicker() {
     const [open, setOpen] = useState(false);
+    const [date, setDate] = useState('12/12/2023');
 
-    const handleOnPress = () => {
+    function handleOnPress() {
         setOpen(!open)
+        console.log('clicked')
+    }
+
+    function handleChange(propDate) {
+        setDate(propDate)
     }
 
   return (
-    <View>
-      {/* <Text>CalendarPicker</Text> */}
+    <View style={styles.container}>
+      <Text>CalendarPicker</Text>
       <TouchableOpacity onPress={handleOnPress}>
         <Text>Open</Text>
       </TouchableOpacity>
@@ -21,7 +29,18 @@ export default function CalendarPicker() {
         visible={open}
       >
         <View style={StyleSheet.centeredView}>
-            <View style={StyleSheet.modalView}></View>
+            <View style={StyleSheet.modalView}>
+                <DatePicker 
+                    mode='calendar'
+                    selected={date}
+                    onDateChange={handleChange}
+                />
+
+
+                <TouchableOpacity onPress={handleOnPress}>
+                    <Text>Close</Text>
+                </TouchableOpacity>
+            </View>
         </View>
 
       </Modal>
@@ -30,7 +49,15 @@ export default function CalendarPicker() {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
     centeredView: {
+        width: '80%',
+        marginHorizontal: 'auto',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
