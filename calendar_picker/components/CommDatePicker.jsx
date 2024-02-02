@@ -19,7 +19,7 @@ export default function CommDatePicker() {
   return (
     <View>
         <Button title='Show Date Picker' onPress={() => showMode("date")} />
-        <Button title='Show Date Picker' onPress={() => showMode("date")} />
+        <Button title='Show Time Picker' onPress={() => showMode("time")} />
         {
             show && (
                 <DateTimePicker 
@@ -30,6 +30,7 @@ export default function CommDatePicker() {
                 />
             )
         }
+        <Text>{date.toLocaleDateString()}</Text>
       <Text>CommDatePicker</Text>
     </View>
   )

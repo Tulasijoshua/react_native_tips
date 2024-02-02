@@ -2,12 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import CalendarPicker from './components/CalendarPicker';
 import CommDatePicker from './components/CommDatePicker';
+import CommDateOnShow from './components/CommDateOnShow';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      {/* <CalendarPicker /> */}
-      <CommDatePicker />
+      <CalendarPicker />
+      {/* <CommDatePicker /> */}
+      {/* <CommDateOnShow /> */}
       <StatusBar style="auto" />
     </View>
   );
