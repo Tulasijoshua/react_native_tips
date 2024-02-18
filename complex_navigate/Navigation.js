@@ -9,7 +9,7 @@ import Notifications from './screens/tabScreens/Notifications';
 import { Ionicons } from '@expo/vector-icons';
 import TweetDetailScreen from './screens/homeStack/TweetDetailsScreen';
 import Payments from './screens/drawerScreens/Payments';
-import { useColorScheme } from 'react-native';
+import { Image, Pressable, useColorScheme } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 const TopTabs = createMaterialTopTabNavigator();
@@ -53,7 +53,7 @@ function HomeStackGroup() {
 
 const Tab = createBottomTabNavigator();
 
-function TabGroup() {
+function TabGroup({navigation}) {
     return (
         <Tab.Navigator 
             screenOptions={({route, navigation}) => ({
@@ -73,7 +73,17 @@ function TabGroup() {
             })}
         >
             <Tab.Screen name='Feed' component={TopTabsGroup} 
-                options={{tabBarLabel: "@tulasi"}} 
+                options={{
+                    tabBarLabel: "@tulasi",
+                    headerLeft: () => (
+                        <Pressable onPress={() => navigation.openDrawer()}>
+                        <Image
+                            source={require("./assets/joshua.png")}
+                            style={{ width: 40, height: 40, borderRadius: 100, marginLeft: 15 }}
+                        />
+                        </Pressable>
+                    ),
+                }} 
             />
             {/* <Tab.Screen name='Feed' component={Feed} 
                 options={{tabBarLabel: "@tulasi"}} 
