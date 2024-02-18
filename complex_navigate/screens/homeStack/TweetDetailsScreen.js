@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Platform, SafeAreaView, StyleSheet, Text } from "react-native";
+import { Button, Platform, SafeAreaView, StyleSheet, Text } from "react-native";
 import TweetContent from "../../components/TweetContent";
 import { useLayoutEffect } from "react";
 
@@ -16,6 +16,7 @@ export default function TweetDetailScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
+            {/* <Button title="Go back" onPress={() => navigation.goBack()} /> */}
             <TweetContent tweet={params.tweet} />
         </SafeAreaView>
     )
