@@ -1,5 +1,6 @@
 import React, { useCallback, useImperativeHandle, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { PanGestureHandler, TapGestureHandler } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 const BottomSheet = ({ snapTo }, ref) => {
@@ -19,7 +20,6 @@ const BottomSheet = ({ snapTo }, ref) => {
     topAnimation.value = withTiming(closeHeight);
   }, [closeHeight, topAnimation]);
 
-  // Creating a mutable ref using useRef
   const bottomSheetRef = useRef(null);
 
   useImperativeHandle(
@@ -38,12 +38,18 @@ const BottomSheet = ({ snapTo }, ref) => {
     };
   });
 
+  const handleGesture = (event) => {
+    console.log(event.nativeEvent.translationY);
+  };
+
   return (
-    <Animated.View style={[styles.container, animationStyle]} ref={bottomSheetRef}>
-      <View style={styles.lineContainer}>
-        <View style={styles.line} />
-      </View>
-    </Animated.View>
+    <PanGestureHandler onGestureEvent={handleGesture}>
+        <Animated.View style={[styles.container, animationStyle]} ref={bottomSheetRef}>
+        <View style={styles.lineContainer}>
+            <View style={styles.line} />
+        </View>
+        </Animated.View>
+    </PanGestureHandler>
   );
 };
 
