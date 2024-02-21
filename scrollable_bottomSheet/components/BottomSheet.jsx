@@ -1,6 +1,6 @@
 import React, { useCallback, useImperativeHandle, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { PanGestureHandler, TapGestureHandler } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 const BottomSheet = ({ snapTo }, ref) => {
@@ -38,18 +38,23 @@ const BottomSheet = ({ snapTo }, ref) => {
     };
   });
 
-  const handleGesture = (event) => {
-    console.log(event.nativeEvent.translationY);
-  };
+  const pan = Gesture.Pan()
+    .onBegin(() => {
+      console.log('BEGIN')
+    }).onUpdate((event) => {
+      console.log(event.translationY)
+    }).onEnd(() => {
+      console.log('END')
+    });
 
   return (
-    <PanGestureHandler onGestureEvent={handleGesture}>
+    <GestureDetector gesture={pan}>
         <Animated.View style={[styles.container, animationStyle]} ref={bottomSheetRef}>
         <View style={styles.lineContainer}>
             <View style={styles.line} />
         </View>
         </Animated.View>
-    </PanGestureHandler>
+    </GestureDetector>
   );
 };
 
