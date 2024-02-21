@@ -2,6 +2,7 @@ import React, { useCallback, useImperativeHandle, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
+import BackDrop from './BackDrop';
 
 const BottomSheet = ({ snapTo, backgroundColor }, ref) => {
   const { height } = Dimensions.get('screen');
@@ -71,15 +72,18 @@ const BottomSheet = ({ snapTo, backgroundColor }, ref) => {
     });
 
   return (
-    <GestureDetector gesture={pan}>
-        <Animated.View style={[styles.container, animationStyle, {
-          backgroundColor: backgroundColor,
-        }]} ref={bottomSheetRef}>
-        <View style={styles.lineContainer}>
-            <View style={styles.line} />
-        </View>
-        </Animated.View>
-    </GestureDetector>
+    <>
+      <BackDrop topAnimation={topAnimation} closeHeight={closeHeight} openHeight={openHeight} close={close} />
+      <GestureDetector gesture={pan}>
+          <Animated.View style={[styles.container, animationStyle, {
+            backgroundColor: backgroundColor,
+          }]} ref={bottomSheetRef}>
+          <View style={styles.lineContainer}>
+              <View style={styles.line} />
+          </View>
+          </Animated.View>
+      </GestureDetector>
+    </>
   );
 };
 
