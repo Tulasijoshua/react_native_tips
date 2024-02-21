@@ -22,7 +22,7 @@ export default function App() {
           <StatusBar style="auto" />
           <Button title='expand' onPress={() => expandHandler()} />
           <Button title='close' onPress={() => closeHandler()} />
-          <BottomSheet ref={bottomSheetRef} snapTo={'50%'} />
+          <BottomSheet ref={bottomSheetRef} snapTo={'50%'} backgroundColor='white' />
         </SafeAreaView>
       </GestureHandlerRootView>
     </SafeAreaProvider>

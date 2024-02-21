@@ -1,14 +1,15 @@
 import React, { useCallback, useImperativeHandle, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 
-const BottomSheet = ({ snapTo }, ref) => {
+const BottomSheet = ({ snapTo, backgroundColor }, ref) => {
   const { height } = Dimensions.get('screen');
   const closeHeight = height;
   const percentage = parseFloat(snapTo.replace('%', '')) / 100;
   const openHeight = height - height * percentage;
   const topAnimation = useSharedValue(closeHeight);
+  const context = useSharedValue(0)
   
   const expand = useCallback(() => {
     'worklet';
@@ -40,16 +41,40 @@ const BottomSheet = ({ snapTo }, ref) => {
 
   const pan = Gesture.Pan()
     .onBegin(() => {
-      console.log('BEGIN')
+      console.log('BEGIN');
+      context.value = topAnimation.value;
     }).onUpdate((event) => {
-      console.log(event.translationY)
+      console.log(event.translationY);
+      if (event.translationY < 0) {
+        topAnimation.value = withSpring(openHeight, {
+          damping: 100,
+          stiffness: 400
+        })
+      } else {
+        topAnimation.value = withSpring(event.translationY + context.value, {
+          damping: 100,
+          stiffness: 400,
+        })
+      }
     }).onEnd(() => {
-      console.log('END')
+      if (topAnimation.value > openHeight + 50) {
+        topAnimation.value = withSpring(closeHeight, {
+          damping: 100,
+          stiffness: 400,
+        })
+      } else {
+        topAnimation.value = withSpring(openHeight, {
+          damping: 100, 
+          stiffness: 400,
+        })
+      }
     });
 
   return (
     <GestureDetector gesture={pan}>
-        <Animated.View style={[styles.container, animationStyle]} ref={bottomSheetRef}>
+        <Animated.View style={[styles.container, animationStyle, {
+          backgroundColor: backgroundColor,
+        }]} ref={bottomSheetRef}>
         <View style={styles.lineContainer}>
             <View style={styles.line} />
         </View>
