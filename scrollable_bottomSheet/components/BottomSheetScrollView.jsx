@@ -5,7 +5,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } fr
 import BackDrop from './BackDrop';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BottomSheet = ({ snapTo, backgroundColor, backDropColor, children }, ref) => {
+const BottomSheetScrollView = ({ snapTo, backgroundColor, backDropColor, children }, ref) => {
   const inset = useSafeAreaInsets()
   const { height } = Dimensions.get('screen');
   const closeHeight = height;
@@ -96,7 +96,7 @@ const BottomSheet = ({ snapTo, backgroundColor, backDropColor, children }, ref) 
   );
 };
 
-export default React.forwardRef(BottomSheet);
+export default React.forwardRef(BottomSheetScrollView);
 
 const styles = StyleSheet.create({
   container: {
