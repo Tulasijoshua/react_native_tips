@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 export default function BottomSheet() {
@@ -6,6 +6,22 @@ export default function BottomSheet() {
     <View style={styles.backdrop}>
       <View style={styles.bottomSheet}>
         <Text style={{fontSize: 20, fontWeight: 'bold'}}>Login / Signup</Text>
+        <View style={{marginTop: 20}}>
+            <TextInput 
+                placeholder='Enter Username'
+                style={styles.input}
+            />
+
+            <TextInput 
+                placeholder='Enter Password'
+                style={styles.input}
+                secureTextEntry={true}
+            />
+
+            <TouchableOpacity style={styles.button}>
+                <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}}>Login</Text>
+            </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
@@ -30,5 +46,22 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         paddingHorizontal: 15, 
         paddingVertical: 20,
-    }
+    },
+    input: {
+        width: '100%',
+        height: 40,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#bcbcbc',
+        paddingHorizontal: 15,
+        marginBottom: 10
+    },
+    button: {
+        paddingHorizontal: 30, 
+        paddingVertical: 10,
+        borderRadius: 10,
+        backgroundColor: '#40A2E3',
+        alignItems: 'center',
+        marginTop: 15
+      }
 })
