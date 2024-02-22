@@ -1,7 +1,26 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Animated } from 'react-native'
+import React, { useRef } from 'react'
 
 export default function BottomSheet() {
+    const slide = useRef(new Animated.Value(0))
+
+    const slideUp = () => {
+        // Will change fadeAnim value to 1 in 5 seconds
+        Animated.timing(slide, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true,
+        }).start();
+      };
+    
+      const slideDown = () => {
+        // Will change fadeAnim value to 0 in 3 seconds
+        Animated.timing(slide, {
+          toValue: 0,
+          duration: 1500,
+          useNativeDriver: true,
+        }).start();
+      };
   return (
     <View style={styles.backdrop}>
       <View style={styles.bottomSheet}>
