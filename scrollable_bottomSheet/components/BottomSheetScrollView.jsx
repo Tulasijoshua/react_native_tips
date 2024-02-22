@@ -1,11 +1,11 @@
 import React, { useCallback, useImperativeHandle, useRef } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 import BackDrop from './BackDrop';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BottomSheetScrollView = ({ snapTo, backgroundColor, backDropColor, children }, ref) => {
+const BottomSheetScrollView = ({ snapTo, backgroundColor, backDropColor, children, ...rest }, ref) => {
   const inset = useSafeAreaInsets()
   const { height } = Dimensions.get('screen');
   const closeHeight = height;
@@ -44,10 +44,8 @@ const BottomSheetScrollView = ({ snapTo, backgroundColor, backDropColor, childre
 
   const pan = Gesture.Pan()
     .onBegin(() => {
-      console.log('BEGIN');
       context.value = topAnimation.value;
     }).onUpdate((event) => {
-      console.log(event.translationY);
       if (event.translationY < 0) {
         topAnimation.value = withSpring(openHeight, {
           damping: 100,
@@ -73,6 +71,12 @@ const BottomSheetScrollView = ({ snapTo, backgroundColor, backDropColor, childre
       }
     });
 
+    const onScroll = useAnimatedScrollHandler({
+      onBeginDrag: event => {
+        scrollBegin.value = event.contentOffset.y
+      }
+    })
+
   return (
     <>
       <BackDrop 
@@ -86,10 +90,14 @@ const BottomSheetScrollView = ({ snapTo, backgroundColor, backDropColor, childre
             backgroundColor: backgroundColor,
             paddingBottom: inset.bottom
           }]} ref={bottomSheetRef}>
-          <View style={styles.lineContainer}>
-              <View style={styles.line} />
-          </View>
-          {children}
+            <View style={styles.lineContainer}>
+                <View style={styles.line} />
+            </View>
+            <Animated.ScrollView {...rest}
+              bounces={false}
+              scrollEventThrottle={16}
+              onScroll={onScroll}
+            >{children}</Animated.ScrollView>
           </Animated.View>
       </GestureDetector>
     </>

@@ -1,11 +1,11 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import lorem from '../data/lorem';
 
 const Lorem = () => {
   return (
     <View>
-      <Text style={styles.text}>{lorem}</Text>
+        <Text style={styles.text}>{lorem}</Text>
     </View>
   );
 };
