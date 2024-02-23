@@ -12,7 +12,7 @@ export default function App() {
         <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}}>Launch Modal</Text>
       </TouchableOpacity>
 
-      { status && <BottomSheet />}
+      { status && <BottomSheet setStatus={ setStatus } />}
       
     </View>
   );

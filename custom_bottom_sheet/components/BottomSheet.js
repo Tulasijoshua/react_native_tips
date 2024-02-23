@@ -1,14 +1,14 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Animated } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Animated, Pressable } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 
-export default function BottomSheet() {
-    const slide = useRef(new Animated.Value(-300))
+export default function BottomSheet({setStatus}) {
+    const slide = useRef(new Animated.Value(300)).current
 
     const slideUp = () => {
         // Will change fadeAnim value to 1 in 5 seconds
         Animated.timing(slide, {
           toValue: 0,
-          duration: 1500,
+          duration: 800,
           useNativeDriver: true,
         }).start();
       };
@@ -17,7 +17,7 @@ export default function BottomSheet() {
         // Will change fadeAnim value to 0 in 3 seconds
         Animated.timing(slide, {
           toValue: -300,
-          duration: 1500,
+          duration: 800,
           useNativeDriver: true,
         }).start();
       };
@@ -26,9 +26,14 @@ export default function BottomSheet() {
         slideUp()
       }, [])
 
+      const closeModal = () => {
+        slideDown();
+        setStatus(false)
+      }
+
   return (
-    <View style={styles.backdrop}>
-      <Animated.View style={[styles.bottomSheet, { transform: [{ translateY: slide.current}]}]}>
+    <Pressable onPress={closeModal} style={styles.backdrop}>
+      <Animated.View style={[styles.bottomSheet, { transform: [{ translateY: slide}]}]}>
         <Text style={{fontSize: 20, fontWeight: 'bold'}}>Login / Signup</Text>
         <View style={{marginTop: 20}}>
             <TextInput 
@@ -47,7 +52,7 @@ export default function BottomSheet() {
             </TouchableOpacity>
         </View>
       </Animated.View>
-    </View>
+    </Pressable>
   )
 }
 
