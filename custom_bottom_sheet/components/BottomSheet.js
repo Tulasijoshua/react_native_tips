@@ -7,7 +7,7 @@ export default function BottomSheet() {
     const slideUp = () => {
         // Will change fadeAnim value to 1 in 5 seconds
         Animated.timing(slide, {
-          toValue: 1,
+          toValue: 0,
           duration: 1500,
           useNativeDriver: true,
         }).start();
@@ -16,14 +16,14 @@ export default function BottomSheet() {
       const slideDown = () => {
         // Will change fadeAnim value to 0 in 3 seconds
         Animated.timing(slide, {
-          toValue: 0,
+          toValue: -300,
           duration: 1500,
           useNativeDriver: true,
         }).start();
       };
   return (
     <View style={styles.backdrop}>
-      <View style={styles.bottomSheet}>
+      <Animated.View style={[styles.bottomSheet, { transform: [{ translateY: slide.current}]}]}>
         <Text style={{fontSize: 20, fontWeight: 'bold'}}>Login / Signup</Text>
         <View style={{marginTop: 20}}>
             <TextInput 
@@ -41,7 +41,7 @@ export default function BottomSheet() {
                 <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}}>Login</Text>
             </TouchableOpacity>
         </View>
-      </View>
+      </Animated.View>
     </View>
   )
 }
