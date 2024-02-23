@@ -1,16 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import BottomSheet from './components/BottomSheet';
+import { useState } from 'react';
 
 export default function App() {
+  const [status, setStatus] = useState(false);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity onPress={() => setStatus(true)} style={styles.button}>
         <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}}>Launch Modal</Text>
       </TouchableOpacity>
 
-      <BottomSheet />
+      { status && <BottomSheet />}
+      
     </View>
   );
 }
