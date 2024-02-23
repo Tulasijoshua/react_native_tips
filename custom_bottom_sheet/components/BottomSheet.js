@@ -16,7 +16,7 @@ export default function BottomSheet({setStatus}) {
       const slideDown = () => {
         // Will change fadeAnim value to 0 in 3 seconds
         Animated.timing(slide, {
-          toValue: -300,
+          toValue: 300,
           duration: 800,
           useNativeDriver: true,
         }).start();
@@ -28,30 +28,35 @@ export default function BottomSheet({setStatus}) {
 
       const closeModal = () => {
         slideDown();
-        setStatus(false)
+
+        setTimeout(() => {
+          setStatus(false)
+        }, 800)
       }
 
   return (
     <Pressable onPress={closeModal} style={styles.backdrop}>
-      <Animated.View style={[styles.bottomSheet, { transform: [{ translateY: slide}]}]}>
-        <Text style={{fontSize: 20, fontWeight: 'bold'}}>Login / Signup</Text>
-        <View style={{marginTop: 20}}>
-            <TextInput 
-                placeholder='Enter Username'
-                style={styles.input}
-            />
+      <Pressable style={{width: '100%', height: '40%',}}>
+        <Animated.View style={[styles.bottomSheet, { transform: [{ translateY: slide}]}]}>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}>Login / Signup</Text>
+          <View style={{marginTop: 20}}>
+              <TextInput 
+                  placeholder='Enter Username'
+                  style={styles.input}
+              />
 
-            <TextInput 
-                placeholder='Enter Password'
-                style={styles.input}
-                secureTextEntry={true}
-            />
+              <TextInput 
+                  placeholder='Enter Password'
+                  style={styles.input}
+                  secureTextEntry={true}
+              />
 
-            <TouchableOpacity style={styles.button}>
-                <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}}>Login</Text>
-            </TouchableOpacity>
-        </View>
-      </Animated.View>
+              <TouchableOpacity style={styles.button}>
+                  <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}}>Login</Text>
+              </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </Pressable>
     </Pressable>
   )
 }
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
     },
     bottomSheet: {
         width: '100%',
-        height: '40%',
+        height: '100%',
         backgroundColor: 'white',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
