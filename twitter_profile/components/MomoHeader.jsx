@@ -1,12 +1,39 @@
-import { View, Text, StyleSheet, StatusBar, ScrollView, SafeAreaView, Image, TextInput } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, StatusBar, ScrollView, SafeAreaView, Image, TextInput, Animated } from 'react-native'
+import React, { useRef } from 'react'
 import { WINDOW_HEIGHT } from '../constants'
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+
 
 export default function MomoHeader() {
+    const animatedValue = useRef(new Animated.Value(0)).current;
+
+    const searchInputAnimation = {
+        transform: [
+            {
+                scaleX: animatedValue.interpolate({
+                    inputRange: [0, 50],
+                    outputRange: [1, 0],
+                    extrapolate: 'clamp',
+                })
+            },
+            {
+                translateX: animatedValue.interpolate({
+                    inputRange: [0, 25],
+                    outputRange: [0, -100],
+                    extrapolate: 'clamp',
+                })
+            },
+        ],
+        opacity: animatedValue.interpolate({
+            inputRange: [0, 25],
+            outputRange: [1, 0],
+            extrapolate: 'clamp',
+        })
+    }
   return (
     <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -19,23 +46,40 @@ export default function MomoHeader() {
             <View style={styles.upperHeader} >
                 <View style={styles.searchContainer}>
                     <EvilIcons name="search" size={30} color="#fff" style={styles.searchIcon} />
-                    <TextInput 
+                    <AnimatedTextInput 
                         placeholder='Tulasi Joshua' 
                         placeholderTextColor="rgba(255, 255, 255, 0.8)"
-                        style={styles.searchInput}
+                        style={[styles.searchInput, searchInputAnimation]}
                     />
                 </View>
-                <Ionicons name="notifications-outline" size={25} color="#fff" style={styles.bellIcon} />
+                <Ionicons name="notifications-outline" size={17} color="#fff" style={styles.bellIcon} />
                 <Ionicons name="notifications-outline" size={25} color="#fff" style={styles.avatar} />
             </View>
             <View style={styles.lowerHeader}>
                 <View style={styles.feature}>
-                    <AntDesign name="login" size={30} color="#fff" style={styles.avatar} />
+                    <AntDesign name="login" size={30} color="#fff" style={styles.featureCircle} />
+                    <Text style={styles.featureName}>NAP TIEN</Text>
+                </View>
+                <View style={styles.feature}>
+                    <AntDesign name="login" size={30} color="#fff" style={styles.featureCircle} />
+                    <Text style={styles.featureName}>NAP TIEN</Text>
+                </View>
+                <View style={styles.feature}>
+                    <AntDesign name="login" size={30} color="#fff" style={styles.featureCircle} />
+                    <Text style={styles.featureName}>NAP TIEN</Text>
+                </View>
+                <View style={styles.feature}>
+                    <AntDesign name="login" size={30} color="#fff" style={styles.featureCircle} />
+                    <Text style={styles.featureName}>NAP TIEN</Text>
                 </View>
             </View>
         </SafeAreaView>
         
-        <ScrollView>
+        <ScrollView onScroll={e => {
+            const offsetY = e.nativeEvent.contentOffset.y;
+            animatedValue.setValue(offsetY);
+        }}
+        scrollEventThrottle={16}>
             <View style={styles.paddingForHeader} />
             <View style={styles.scrollViewContent} />
         </ScrollView>
@@ -43,12 +87,15 @@ export default function MomoHeader() {
   )
 }
 
+const UPPER_HEADER_HEIGHT = 40;
+const LOWER_HEADER_HEIGHT = 120;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
     upperHeaderPlaceholder: {
-        height: 40,
+        height: UPPER_HEADER_HEIGHT,
     },
     header: {
         position: 'absolute',
@@ -57,7 +104,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#AF0C6E'
     },
     upperHeader: {
-        height: 40,
+        height: UPPER_HEADER_HEIGHT,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16
@@ -90,10 +137,29 @@ const styles = StyleSheet.create({
     //     height: 28,
     // },
     lowerHeader: {
-        height: 96
+        height: LOWER_HEADER_HEIGHT,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 16,
+    },
+    feature: {
+        alignItems: 'center'
+    },
+    featureIconCircle: {
+        width: 32,
+        height: 32,
+    },
+    featureName: {
+        fontWeight: 'bold',
+        fontSize: 12,
+        lineHeight: 14,
+        color: 'white',
+        marginTop: 12,
     },
     paddingForHeader: {
-        height: 96,
+        height: LOWER_HEADER_HEIGHT,
     },
     scrollViewContent: {
         height: WINDOW_HEIGHT * 2,
