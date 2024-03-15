@@ -3,6 +3,7 @@ import React from 'react'
 import { WINDOW_HEIGHT } from '../constants'
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 export default function MomoHeader() {
@@ -28,7 +29,9 @@ export default function MomoHeader() {
                 <Ionicons name="notifications-outline" size={25} color="#fff" style={styles.avatar} />
             </View>
             <View style={styles.lowerHeader}>
-                <View style={styles.feature}></View>
+                <View style={styles.feature}>
+                    <AntDesign name="login" size={30} color="#fff" style={styles.avatar} />
+                </View>
             </View>
         </SafeAreaView>
         
