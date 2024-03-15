@@ -34,6 +34,50 @@ export default function MomoHeader() {
             extrapolate: 'clamp',
         })
     }
+    const featureNameAnimation = {
+        transform: [
+            {
+                scale: animatedValue.interpolate({
+                    inputRange: [0, 30],
+                    outputRange: [1, 0],
+                    extrapolate: 'clamp',
+                })
+            },
+        ],
+        opacity: animatedValue.interpolate({
+            inputRange: [0, 30],
+            outputRange: [1, 0],
+            extrapolate: 'clamp',
+        })
+    }
+
+    const depositeViewAnimation = {
+        transform: [
+            {
+                translateX: animatedValue.interpolate({
+                    inputRange: [0, 80],
+                    outputRange: [0, 36],
+                    extrapolate: 'clamp',
+                })
+            },
+            {
+                translateY: animatedValue.interpolate({
+                    inputRange: [0, 100],
+                    outputRange: [0, -50],
+                    extrapolate: 'clamp',
+                })
+            },
+        ]
+    }
+
+    const featureIconCircleAnimation = {
+        opacity: animatedValue.interpolate({
+            inputRange: [0, 25],
+            outputRange: [1, 0],
+            extrapolate: 'clamp',
+        })
+    };
+
   return (
     <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -56,21 +100,25 @@ export default function MomoHeader() {
                 <Ionicons name="notifications-outline" size={25} color="#fff" style={styles.avatar} />
             </View>
             <View style={styles.lowerHeader}>
+                <Animated.View style={[styles.feature, depositeViewAnimation]}>
+                    <Animated.AntDesign name="login" size={30} color="#fff" style={[styles.featureIconCircle, featureIconCircleAnimation]} />
+                    <AntDesign name="login" size={20} color="#fff" style={styles.featureIcon} />
+                    <Animated.Text style={[styles.featureName, featureNameAnimation]}>NAP TIEN</Animated.Text>
+                </Animated.View>
                 <View style={styles.feature}>
-                    <AntDesign name="login" size={30} color="#fff" style={styles.featureCircle} />
-                    <Text style={styles.featureName}>NAP TIEN</Text>
+                    <AntDesign name="login" size={30} color="#fff" style={styles.featureIconCircle} />
+                    <AntDesign name="login" size={20} color="#fff" style={styles.featureIcon} />
+                    <Animated.Text style={[styles.featureName, featureNameAnimation]}>NAP TIEN</Animated.Text>
                 </View>
                 <View style={styles.feature}>
-                    <AntDesign name="login" size={30} color="#fff" style={styles.featureCircle} />
-                    <Text style={styles.featureName}>NAP TIEN</Text>
+                    <AntDesign name="login" size={30} color="#fff" style={styles.featureIconCircle} />
+                    <AntDesign name="login" size={20} color="#fff" style={styles.featureIcon} />
+                    <Animated.Text style={[styles.featureName, featureNameAnimation]}>NAP TIEN</Animated.Text>
                 </View>
                 <View style={styles.feature}>
-                    <AntDesign name="login" size={30} color="#fff" style={styles.featureCircle} />
-                    <Text style={styles.featureName}>NAP TIEN</Text>
-                </View>
-                <View style={styles.feature}>
-                    <AntDesign name="login" size={30} color="#fff" style={styles.featureCircle} />
-                    <Text style={styles.featureName}>NAP TIEN</Text>
+                    <AntDesign name="login" size={30} color="#fff" style={styles.featureIconCircle} />
+                    <AntDesign name="login" size={20} color="#fff" style={styles.featureIcon} />
+                    <Animated.Text style={[styles.featureName, featureNameAnimation]}>NAP TIEN</Animated.Text>
                 </View>
             </View>
         </SafeAreaView>
@@ -99,7 +147,7 @@ const styles = StyleSheet.create({
     },
     header: {
         position: 'absolute',
-        paddingTop: 30,
+        paddingTop: 20,
         width: '100%',
         backgroundColor: '#AF0C6E'
     },
@@ -120,7 +168,7 @@ const styles = StyleSheet.create({
     },
     searchInput: {
         position: 'absolute',
-        width: '100%',
+        width: '90%',
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
         color: 'white',
         borderRadius: 4,
@@ -150,6 +198,10 @@ const styles = StyleSheet.create({
     featureIconCircle: {
         width: 32,
         height: 32,
+    },
+    featureIcon: {
+        position: 'absolute',
+        top: 8,
     },
     featureName: {
         fontWeight: 'bold',
