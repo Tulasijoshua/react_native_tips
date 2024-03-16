@@ -101,7 +101,9 @@ export default function MomoHeader() {
             </View>
             <View style={styles.lowerHeader}>
                 <Animated.View style={[styles.feature, depositeViewAnimation]}>
-                    <Animated.AntDesign name="login" size={30} color="#fff" style={[styles.featureIconCircle, featureIconCircleAnimation]} />
+                    <Animated.View style={[styles.featureIconCircle, featureIconCircleAnimation]} >
+                        <AntDesign name="login" size={30} color="#fff" />
+                    </Animated.View>
                     <AntDesign name="login" size={20} color="#fff" style={styles.featureIcon} />
                     <Animated.Text style={[styles.featureName, featureNameAnimation]}>NAP TIEN</Animated.Text>
                 </Animated.View>
