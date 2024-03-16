@@ -10,9 +10,9 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 export default function MomoHeader() {
     const animatedValue = useRef(new Animated.Value(0)).current;
-    const scrollViewRef = useRef<ScrollView>(null);
+    const scrollViewRef = useRef(null);
     const lastOffsetY = useRef(0);
-    const scrollDirection = useRef();
+    const scrollDirection = useRef('');
 
     const searchInputAnimation = {
         transform: [
@@ -207,10 +207,10 @@ export default function MomoHeader() {
         <ScrollView 
             ref={scrollViewRef} 
             onScroll={e => {
-            const offsetY = e.nativeEvent.contentOffset.y;
-            scrollDirection.current = offsetY - lastOffsetY.current > 0 ? 'down' : 'up';
-            lastOffsetY.current = offsetY;
-            animatedValue.setValue(offsetY);
+                const offsetY = e.nativeEvent.contentOffset.y;
+                scrollDirection.current = offsetY - lastOffsetY.current > 0 ? 'down' : 'up';
+                lastOffsetY.current = offsetY;
+                animatedValue.setValue(offsetY);
         }}
         onScrollEndDrag={() => {
             scrollViewRef.current?.scrollTo({
