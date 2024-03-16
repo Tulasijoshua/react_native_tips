@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, StatusBar, ScrollView, SafeAreaView, Image, TextInput, Animated } from 'react-native'
+import { View, Text, StyleSheet, StatusBar, ScrollView, SafeAreaView, Image, TextInput, Animated, Platform } from 'react-native'
 import React, { useRef } from 'react'
 import { WINDOW_HEIGHT } from '../constants'
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -10,6 +10,9 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 export default function MomoHeader() {
     const animatedValue = useRef(new Animated.Value(0)).current;
+    const scrollViewRef = useRef<ScrollView>(null);
+    const lastOffsetY = useRef(0);
+    const scrollDirection = useRef();
 
     const searchInputAnimation = {
         transform: [
@@ -56,14 +59,68 @@ export default function MomoHeader() {
             {
                 translateX: animatedValue.interpolate({
                     inputRange: [0, 80],
-                    outputRange: [0, 36],
+                    outputRange: [0, 50],
                     extrapolate: 'clamp',
                 })
             },
             {
                 translateY: animatedValue.interpolate({
                     inputRange: [0, 100],
-                    outputRange: [0, -50],
+                    outputRange: [0, -55],
+                    extrapolate: 'clamp',
+                })
+            },
+        ]
+    }
+    const withdrawViewAnimation = {
+        transform: [
+            {
+                translateX: animatedValue.interpolate({
+                    inputRange: [0, 80],
+                    outputRange: [0, 5],
+                    extrapolate: 'clamp',
+                })
+            },
+            {
+                translateY: animatedValue.interpolate({
+                    inputRange: [0, 100],
+                    outputRange: [0, -55],
+                    extrapolate: 'clamp',
+                })
+            },
+        ]
+    }
+    const qrViewAnimation = {
+        transform: [
+            {
+                translateX: animatedValue.interpolate({
+                    inputRange: [0, 80],
+                    outputRange: [0, -40],
+                    extrapolate: 'clamp',
+                })
+            },
+            {
+                translateY: animatedValue.interpolate({
+                    inputRange: [0, 100],
+                    outputRange: [0, -55],
+                    extrapolate: 'clamp',
+                })
+            },
+        ]
+    }
+    const scanViewAnimation = {
+        transform: [
+            {
+                translateX: animatedValue.interpolate({
+                    inputRange: [0, 80],
+                    outputRange: [0, -80],
+                    extrapolate: 'clamp',
+                })
+            },
+            {
+                translateY: animatedValue.interpolate({
+                    inputRange: [0, 100],
+                    outputRange: [0, -55],
                     extrapolate: 'clamp',
                 })
             },
@@ -74,6 +131,14 @@ export default function MomoHeader() {
         opacity: animatedValue.interpolate({
             inputRange: [0, 25],
             outputRange: [1, 0],
+            extrapolate: 'clamp',
+        })
+    };
+
+    const featureIconAnimation = {
+        opacity: animatedValue.interpolate({
+            inputRange: [0, 50],
+            outputRange: [0, 1],
             extrapolate: 'clamp',
         })
     };
@@ -104,30 +169,54 @@ export default function MomoHeader() {
                     <Animated.View style={[styles.featureIconCircle, featureIconCircleAnimation]} >
                         <AntDesign name="login" size={30} color="#fff" />
                     </Animated.View>
-                    <AntDesign name="login" size={20} color="#fff" style={styles.featureIcon} />
+                    <Animated.View style={[styles.featureIcon, featureIconAnimation]}>
+                        <AntDesign name="login" size={20} color="#fff" />
+                    </Animated.View>
                     <Animated.Text style={[styles.featureName, featureNameAnimation]}>NAP TIEN</Animated.Text>
                 </Animated.View>
-                <View style={styles.feature}>
-                    <AntDesign name="login" size={30} color="#fff" style={styles.featureIconCircle} />
-                    <AntDesign name="login" size={20} color="#fff" style={styles.featureIcon} />
+                <Animated.View style={[styles.feature, withdrawViewAnimation]}>
+                    <Animated.View style={[styles.featureIconCircle, featureIconCircleAnimation]} >
+                        <AntDesign name="login" size={30} color="#fff" />
+                    </Animated.View>
+                    <Animated.View style={[styles.featureIcon, featureIconAnimation]}>
+                        <AntDesign name="login" size={20} color="#fff" />
+                    </Animated.View>
                     <Animated.Text style={[styles.featureName, featureNameAnimation]}>NAP TIEN</Animated.Text>
-                </View>
-                <View style={styles.feature}>
-                    <AntDesign name="login" size={30} color="#fff" style={styles.featureIconCircle} />
-                    <AntDesign name="login" size={20} color="#fff" style={styles.featureIcon} />
+                </Animated.View>
+                <Animated.View style={[styles.feature, qrViewAnimation]}>
+                    <Animated.View style={[styles.featureIconCircle, featureIconCircleAnimation]} >
+                        <AntDesign name="login" size={30} color="#fff" />
+                    </Animated.View>
+                    <Animated.View style={[styles.featureIcon, featureIconAnimation]}>
+                        <AntDesign name="login" size={20} color="#fff" />
+                    </Animated.View>
                     <Animated.Text style={[styles.featureName, featureNameAnimation]}>NAP TIEN</Animated.Text>
-                </View>
-                <View style={styles.feature}>
-                    <AntDesign name="login" size={30} color="#fff" style={styles.featureIconCircle} />
-                    <AntDesign name="login" size={20} color="#fff" style={styles.featureIcon} />
+                </Animated.View>
+                <Animated.View style={[styles.feature, scanViewAnimation]}>
+                    <Animated.View style={[styles.featureIconCircle, featureIconCircleAnimation]} >
+                        <AntDesign name="login" size={30} color="#fff" />
+                    </Animated.View>
+                    <Animated.View style={[styles.featureIcon, featureIconAnimation]}>
+                        <AntDesign name="login" size={20} color="#fff" />
+                    </Animated.View>
                     <Animated.Text style={[styles.featureName, featureNameAnimation]}>NAP TIEN</Animated.Text>
-                </View>
+                </Animated.View>
             </View>
         </SafeAreaView>
         
-        <ScrollView onScroll={e => {
+        <ScrollView 
+            ref={scrollViewRef} 
+            onScroll={e => {
             const offsetY = e.nativeEvent.contentOffset.y;
+            scrollDirection.current = offsetY - lastOffsetY.current > 0 ? 'down' : 'up';
+            lastOffsetY.current = offsetY;
             animatedValue.setValue(offsetY);
+        }}
+        onScrollEndDrag={() => {
+            scrollViewRef.current?.scrollTo({
+                y: scrollDirection.current === 'down' ? 100 : 0,
+                animated: true,
+            })
         }}
         scrollEventThrottle={16}>
             <View style={styles.paddingForHeader} />
@@ -137,8 +226,8 @@ export default function MomoHeader() {
   )
 }
 
-const UPPER_HEADER_HEIGHT = 40;
-const LOWER_HEADER_HEIGHT = 120;
+const UPPER_HEADER_HEIGHT = 70;
+const LOWER_HEADER_HEIGHT = 90;
 
 const styles = StyleSheet.create({
     container: {
@@ -148,8 +237,10 @@ const styles = StyleSheet.create({
         height: UPPER_HEADER_HEIGHT,
     },
     header: {
+        // paddingTop: Platform.OS === 'android' ? 50 : 20,
         position: 'absolute',
         paddingTop: 20,
+        // paddingBottom: 60,
         width: '100%',
         backgroundColor: '#AF0C6E'
     },
@@ -175,7 +266,7 @@ const styles = StyleSheet.create({
         color: 'white',
         borderRadius: 4,
         paddingVertical: 4,
-        paddingLeft: 32,
+        paddingLeft: 50,
     },
     // bellIcon: {
     //     width: 16,
@@ -203,7 +294,7 @@ const styles = StyleSheet.create({
     },
     featureIcon: {
         position: 'absolute',
-        top: 8,
+        top: -6,
     },
     featureName: {
         fontWeight: 'bold',
