@@ -6,10 +6,8 @@ import Fav from './assets/favicon.png';
 export default function App() {
   const onShare = async () => {
     try {
-      const localUri = FileSystem.documentDirectory + './assets/favicon.png';
       const result = await Share.share({
         message: 'React Native | A framework for building native apps using React',
-          url: 'file://' + localUri,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
