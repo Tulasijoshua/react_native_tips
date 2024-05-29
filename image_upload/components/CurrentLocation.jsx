@@ -1,37 +1,48 @@
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native'
 import React from 'react'
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-export default function Camera() {
-    
-  const imagePicker = () => {
-    let options = {
-      mediaType: 'photo',
-      includeBase64: false,
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
+export default function CurrentLocation() {
+    const [location, setLocation] = useState({ latitude: null, longitude: null });
+    const [error, setError] = useState(null);
 
-    launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        console.log('ImagePicker Response: ', response);
-      }
-    });
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => {
+          setError(error.message);
+        }
+      );
+    } else {
+      setError('Geolocation is not supported by this browser.');
+    }
   };
+  
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={{height: 400, width: '100%'}}></View>
+      <View style={{height: 400, width: '100%'}}>
+        {location.latitude && location.longitude ? (
+            <View>
+                <Text>Your current location is: {location.latitude} </Text>
+                <Text>Your current location is: {location.longitude} </Text>
+
+            </View>
+        ) : (
+            <View>
+                <Text>{error ? error : 'Click the button to get location'}</Text>
+            </View>
+        )}
+      </View>
 
       <TouchableOpacity
         onPress={() => {
-          imagePicker()
+            getLocation()
         }}
         style={{
           marginTop: 20,

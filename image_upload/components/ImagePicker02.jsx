@@ -1,4 +1,4 @@
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, Image } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 
@@ -14,7 +14,7 @@ export default function ImagePicker02() {
           quality: 1,
         });
     
-        console.log(result);
+        console.log(result.assets[0].uri);
     
         if (!result.canceled) {
           setImage(result.assets[0].uri);
